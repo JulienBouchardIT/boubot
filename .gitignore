@@ -2,3 +2,4 @@ themes/*
 venv
 config.yaml
 .idea
+!themes/.gitkeep
