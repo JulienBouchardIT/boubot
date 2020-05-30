@@ -1,0 +1,9 @@
+discord
+aiohttp
+glob
+os
+json
+random
+time
+yaml
+ec2_metadata
