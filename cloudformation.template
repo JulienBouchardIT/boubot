@@ -1,0 +1,7 @@
+Resources:
+  VPC431KO:
+    Type: 'AWS::EC2::VPC'
+    Properties: {}
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 9430b008-7a03-41ed-b63e-12345EXAMPLE

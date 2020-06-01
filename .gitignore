@@ -1,5 +1,5 @@
-themes/*
+app/themes/*
 venv
 config.yaml
 .idea
-!themes/.gitkeep
+!app/themes/.gitkeep
