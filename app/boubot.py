@@ -24,7 +24,7 @@ MSG_HELP = "asdasdasd"
 client = discord.Client()
 
 __games__ = []
-
+voice_channel = ""
 
 def get_rand_theme():
     return random.choice(glob.glob("themes/*.json"))
@@ -52,10 +52,12 @@ async def on_message(message):
         await general_text.send(msg)
 
     if message.content.startswith('#join'):
-        await general_vocal.connect()
+        voice_channel = await general_vocal.connect()
 
     if message.content.startswith('#leave'):
-        await general_vocal.disconnect()
+        for vc in client.voice_clients:
+            if(vc.server == message.server):
+                await vc.disconnect()
 
     if message.content.startswith('#newtheme'):
         await general_text.send(str(get_rand_theme()))
