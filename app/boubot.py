@@ -1,4 +1,5 @@
 import discord
+from discord.utils import get
 import aiohttp
 import json
 import glob, os
@@ -7,17 +8,17 @@ import time
 import yaml
 
 
+config_file = open(r'config.yaml')
+
 #auth
-with open(r'config.yaml') as file:
-    config = yaml.load(file, Loader=yaml.FullLoader)
-    CLIENT_ID = config['CLIENT_ID']
-    CLIENT_SECRET = config['CLIENT_SECRET']
-    TOKEN = config['TOKEN']
+config = yaml.load(config_file, Loader=yaml.FullLoader)
+CLIENT_ID = config['AUTH']['CLIENT_ID']
+CLIENT_SECRET = config['AUTH']['CLIENT_SECRET']
+TOKEN = config['AUTH']['TOKEN']
 
+EMOJI = config['EMOJI']
+CHANNEL_ID = config['CHANNEL_ID']
 
-#Channels ids
-GENERAL_TEXT_ID = 420810552940429312
-GENERAL_VOCAL_ID = 555198797001654285
 
 MSG_HELP = "asdasdasd"
 
@@ -25,6 +26,11 @@ client = discord.Client()
 
 __games__ = []
 voice_channel = ""
+
+
+def __get_gif__(key_word):
+    print('')
+
 
 def get_rand_theme():
     return random.choice(glob.glob("themes/*.json"))
@@ -41,8 +47,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    general_text = client.get_channel(GENERAL_TEXT_ID)
-    general_vocal = client.get_channel(GENERAL_VOCAL_ID)
+    # await message.add_reaction(emoji=EMOJI['SMILE'])
+
+    general_text = client.get_channel(CHANNEL_ID['GENERAL_TEXT'])
+    general_vocal = client.get_channel(CHANNEL_ID['GENERAL_VOCAL'])
 
     if message.content.startswith('#help'):
         await general_text.send(MSG_HELP)
@@ -88,7 +96,12 @@ async def on_message(message):
         await general_text.send(str(message.reactions))
 
 
-
+@client.event
+async def on_member_join(member):
+    await member.create_dm()
+    await member.dm_channel.send(
+        f'Hi {member.name}, welcome to my Discord server!'
+    )
 
 
 @client.event
