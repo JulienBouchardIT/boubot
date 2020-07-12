@@ -54,10 +54,16 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    # await message.add_reaction(emoji=EMOJI['SMILE'])
+    #print(EMOJI['EGGPLANT'])
+    await message.add_reaction(emoji='\U0001F44D')
 
     general_text = client.get_channel(CHANNEL_ID['GENERAL_TEXT'])
     general_vocal = client.get_channel(CHANNEL_ID['GENERAL_VOCAL'])
+
+
+    if message.content.startswith('#gif'):
+        key_word = message.content[5:]
+        await general_text.send(__get_gif__(key_word))
 
     if message.content.startswith('#help'):
         await general_text.send(MSG_HELP)
