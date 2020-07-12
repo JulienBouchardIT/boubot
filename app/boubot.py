@@ -6,6 +6,7 @@ import glob, os
 import random
 import time
 import yaml
+import requests
 
 
 config_file = open(r'config.yaml')
@@ -29,7 +30,11 @@ voice_channel = ""
 
 
 def __get_gif__(key_word):
-    print('')
+    x = requests.get('https://api.tenor.com/v1/search?q='+key_word+'&limit=1')
+    if x.status_code is 200:
+        return x.json()['results'][0]['url']
+    else:
+        return ''
 
 
 def get_rand_theme():
