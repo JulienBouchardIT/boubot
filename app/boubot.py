@@ -4,6 +4,7 @@ import aiohttp
 import json
 import glob, os
 import random
+from random import randrange
 import time
 import yaml
 import requests
@@ -30,9 +31,10 @@ voice_channel = ""
 
 
 def __get_gif__(key_word):
-    x = requests.get('https://api.tenor.com/v1/search?q='+key_word+'&limit=1')
+    rand_num = randrange(10)
+    x = requests.get('https://api.tenor.com/v1/search?q='+key_word+'&limit='+str(rand_num))
     if x.status_code is 200:
-        return x.json()['results'][0]['url']
+        return x.json()['results'][rand_num-1]['url']
     else:
         return ''
 
