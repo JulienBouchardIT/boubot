@@ -3,6 +3,8 @@
 #
 FROM python:3.7
 
+RUN ls
+
 WORKDIR /app
 
 RUN ls
