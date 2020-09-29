@@ -3,9 +3,11 @@
 #
 FROM python:3.7
 
-RUN pip install -r requirements.txt
-
 WORKDIR /app
+
+RUN ls
+
+RUN pip install -r requirements.txt
 
 EXPOSE 80
 
