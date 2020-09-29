@@ -8,6 +8,9 @@ from random import randrange
 import time
 import yaml
 import requests
+import urllib.parse
+
+
 
 
 config_file = open(r'config.yaml')
@@ -18,7 +21,6 @@ CLIENT_ID = config['AUTH']['CLIENT_ID']
 CLIENT_SECRET = config['AUTH']['CLIENT_SECRET']
 TOKEN = config['AUTH']['TOKEN']
 
-EMOJI = config['EMOJI']
 CHANNEL_ID = config['CHANNEL_ID']
 
 
@@ -32,8 +34,10 @@ voice_channel = ""
 
 def __get_gif__(key_word):
     rand_num = randrange(10)
-    x = requests.get('https://api.tenor.com/v1/search?q='+key_word+'&limit='+str(rand_num))
-    if x.status_code is 200:
+    key_word = key_word.replace(' ', '-')
+    url = 'https://api.tenor.com/v1/search?q='+key_word+'&limit='+str(rand_num)
+    x = requests.get(url)
+    if x.status_code == 200:
         return x.json()['results'][rand_num-1]['url']
     else:
         return ''
@@ -54,7 +58,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    #print(EMOJI['EGGPLANT'])
+    if message.content.startswith('test'):
+        author = message.author
+        await message.channel.send('I heard you! {0.name}'.format(author))
+
     await message.add_reaction(emoji='\U0001F44D')
 
     general_text = client.get_channel(CHANNEL_ID['GENERAL_TEXT'])
