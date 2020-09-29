@@ -3,13 +3,11 @@
 #
 FROM python:3.7
 
-RUN ls
+COPY requirements.txt /tmp/
+
+RUN pip install --requirement /tmp/requirements.txt
 
 WORKDIR /app
-
-RUN ls
-
-RUN pip install -r requirements.txt
 
 EXPOSE 80
 
