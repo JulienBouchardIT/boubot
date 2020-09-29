@@ -1,6 +1,6 @@
 discord
 aiohttp
-glob
+glob3
 os
 json
 random
