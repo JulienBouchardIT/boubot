@@ -2,7 +2,7 @@ import discord
 from discord.utils import get
 import aiohttp
 import json
-import glob, os
+import glob
 import random
 from random import randrange
 import time

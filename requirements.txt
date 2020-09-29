@@ -1,7 +1,6 @@
 discord
 aiohttp
 glob3
-os
 json
 random
 time
