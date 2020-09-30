@@ -2,3 +2,4 @@ discord
 aiohttp
 glob3
 pyyaml
+requests
