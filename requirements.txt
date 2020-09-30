@@ -1,4 +1,4 @@
 discord
 aiohttp
 glob3
-yaml
+pyyaml
