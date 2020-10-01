@@ -5,22 +5,15 @@ import glob
 import random
 from random import randrange
 import time
-import yaml
 import requests
-import urllib.parse
-
-
-
-
-config_file = open(r'config.yaml')
+import os
 
 #auth
-config = yaml.load(config_file, Loader=yaml.FullLoader)
-CLIENT_ID = config['AUTH']['CLIENT_ID']
-CLIENT_SECRET = config['AUTH']['CLIENT_SECRET']
-TOKEN = config['AUTH']['TOKEN']
+CLIENT_ID = os.environ['CLIENT_ID']
+CLIENT_SECRET = os.environ['CLIENT_SECRET']
+TOKEN = os.environ['TOKEN']
 
-CHANNEL_ID = config['CHANNEL_ID']
+CHANNEL_ID = os.environ['CHANNEL_ID']
 
 
 MSG_HELP = "asdasdasd"
