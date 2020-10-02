@@ -77,4 +77,6 @@ jobs:
           docker push $IMAGE_ID:$VERSION
           
       - name: Deploy image to Server
-        run: ssh ${{ secrets.SERVEUR_USER }}@${{ secrets.SERVER_IP }} ${{ secrets.SERVER_PORT }} 
+        run: |
+          ssh ${{ secrets.SERVEUR_USER }}@${{ secrets.SERVER_IP }}
+          ${{ secrets.SERVER_PASSWORD }}
