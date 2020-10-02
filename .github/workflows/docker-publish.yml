@@ -76,5 +76,5 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
           
-        - name: Deploy image to Server
+      - name: Deploy image to Server
         run: ssh ${{ secrets.SERVEUR_USER }}@${{ secrets.SERVER_IP }} ${{ secrets.SERVER_PORT }} 
