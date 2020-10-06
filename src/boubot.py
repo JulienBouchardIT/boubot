@@ -16,6 +16,7 @@ TOKEN = os.environ['TOKEN']
 CHANNEL_ID = os.environ['CHANNEL_ID']
 
 
+
 MSG_HELP = "asdasdasd"
 
 client = discord.Client()
@@ -54,10 +55,10 @@ async def on_message(message):
         author = message.author
         await message.channel.send('I heard you! {0.name}'.format(author))
 
-    await message.add_reaction(emoji='\U0001F44D')
+    # await message.add_reaction(emoji='\U0001F44D')
 
-    general_text = client.get_channel(CHANNEL_ID['GENERAL_TEXT'])
-    general_vocal = client.get_channel(CHANNEL_ID['GENERAL_VOCAL'])
+    general_text = client.get_channel(CHANNEL_ID)
+    # general_vocal = client.get_channel(CHANNEL_ID)
 
 
     if message.content.startswith('#gif'):
@@ -71,8 +72,8 @@ async def on_message(message):
         msg = 'Hello {0.author.mention}'.format(message)
         await general_text.send(msg)
 
-    if message.content.startswith('#join'):
-        voice_channel = await general_vocal.connect()
+    # if message.content.startswith('#join'):
+    #    voice_channel = await general_vocal.connect()
 
     if message.content.startswith('#leave'):
         for vc in client.voice_clients:
@@ -125,5 +126,3 @@ async def on_ready():
 
 
 client.run(TOKEN)
-
-
