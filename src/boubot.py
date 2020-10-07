@@ -51,4 +51,14 @@ async def cat(ctx):
                 await ctx.send(js['file'])
 
 
+@bot.command()
+async def join(ctx):
+    vc = get(ctx.bot.voice_clients, guild=ctx.guild)
+    if vc:
+        await vc.disconnect()
+    connected = ctx.author.voice
+    if connected:
+        await connected.channel.connect()  # Use the channel instance you put into a variable
+
+
 bot.run(TOKEN)
