@@ -9,7 +9,6 @@ import requests
 import os
 from discord.ext import commands
 
-#auth
 TOKEN = os.environ['TOKEN']
 
 MSG_HELP = "pong        Response ping\r" \
