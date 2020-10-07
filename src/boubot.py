@@ -12,11 +12,8 @@ from discord.ext import commands
 #auth
 TOKEN = os.environ['TOKEN']
 
-CHANNEL_ID = os.environ['CHANNEL_ID']
-
 MSG_HELP = "pong        Response ping\r" \
-           "qwe\r" \
-           "asd\r"
+           "cat         Post a random cat pic\r"
 
 client = discord.Client()
 bot = commands.Bot(command_prefix='/', help_command=None)
