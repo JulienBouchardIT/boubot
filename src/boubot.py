@@ -15,7 +15,7 @@ MSG_HELP = "pong        Response ping\r" \
            "cat         Post a random cat pic\r"
 
 client = discord.Client()
-bot = commands.Bot(command_prefix='/', help_command=None)
+bot = commands.Bot(command_prefix='$', help_command=None)
 
 __games__ = []
 voice_channel = ""
@@ -58,7 +58,47 @@ async def join(ctx):
         await vc.disconnect()
     connected = ctx.author.voice
     if connected:
-        await connected.channel.connect()  # Use the channel instance you put into a variable
+        await connected.channel.connect()
+
+
+@bot.command()
+async def leave(ctx):
+    vc = get(ctx.bot.voice_clients, guild=ctx.guild)
+    if vc:
+        await vc.disconnect()
+
+
+@bot.command()
+async def roll(ctx, *args):
+
+    n_dice = 1
+    n_face = 2
+    try:
+        if len(args) == 0:
+            pass
+        elif len(args) == 1:
+            n_dice = 1
+            n_face = int(args[0])
+        elif len(args) == 2:
+            n_dice = int(args[0])
+            n_face = int(args[1])
+        else:
+            raise Exception('Not enough arguments')
+
+        msg = ''
+        for i in range(0, n_dice):
+            if n_face == 2:
+                msg += random.choice([':white_check_mark:', ':x:'])+'       '
+            else:
+                msg += str(random.randrange(1, int(n_face)))+'      '
+
+        await ctx.send(msg)
+
+    except ValueError:
+        await ctx.send('Arguments of poll need to be integers')
+    except Exception as e:
+        print(e.__class__.__name__)
+        await ctx.send(e)
 
 
 bot.run(TOKEN)
