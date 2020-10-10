@@ -1,20 +1,24 @@
 import discord
 from discord.utils import get
 import aiohttp
-import glob
 import random
 from random import randrange
-import time
 import requests
 import os
 from discord.ext import commands
 
+
 TOKEN = os.environ['TOKEN']
 
-MSG_HELP = "pong        Response ping\r" \
-           "cat         Post a random cat pic\r"
+MSG_HELP = "```pong        Response ping\r" \
+           "cat         Post a random cat pic\r" \
+           "join        Ask the bot to join your vc\r" \
+           "leave       Ask the bot to leave a vc\r" \
+           "roll        a\r" \
+           "play        a\r" \
+           "watch       a\r```"
 
-client = discord.Client()
+
 bot = commands.Bot(command_prefix='$', help_command=None)
 
 __games__ = []
@@ -85,20 +89,42 @@ async def roll(ctx, *args):
         else:
             raise Exception('Not enough arguments')
 
-        msg = ''
+        rolls = ''
         for i in range(0, n_dice):
             if n_face == 2:
-                msg += random.choice([':white_check_mark:', ':x:'])+'       '
+                rolls += random.choice([':white_check_mark:', ':x:'])+'       '
             else:
-                msg += str(random.randrange(1, int(n_face)))+'      '
+                rolls += str(random.randrange(1, int(n_face)))+'      '
 
-        await ctx.send(msg)
+        await ctx.send(rolls)
 
     except ValueError:
         await ctx.send('Arguments of poll need to be integers')
     except Exception as e:
-        print(e.__class__.__name__)
+        print(e.__class__.__name__, e)
         await ctx.send(e)
+
+
+@bot.command()
+async def play(ctx, *args):
+    arg = ' '.join(args)
+    await bot.change_presence(activity=discord.Game(arg))
+
+
+@bot.command()
+async def watch(ctx, *args):
+    arg = ' '.join(args)
+    await bot.change_presence(activity=discord.Activity(
+                              type=discord.ActivityType.watching,
+                              name=arg))
+
+
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=discord.Activity(
+                              type=discord.ActivityType.watching,
+                              name='$help'))
+    print('Bot ready')
 
 
 bot.run(TOKEN)
