@@ -1,24 +1,25 @@
 import discord
 from discord.utils import get
 import aiohttp
-import glob
+# import glob
 import random
 from random import randrange
-import time
+# import time
 import requests
 import os
 from discord.ext import commands
 
 TOKEN = os.environ['TOKEN']
 
-MSG_HELP = "pong        Response ping\r" \
-           "cat         Post a random cat pic\r"
+MSG_HELP = "```pong        Response ping\r" \
+           "cat         Post a random cat pic```"
 
 client = discord.Client()
-bot = commands.Bot(command_prefix='$', help_command=None)
+bot = commands.Bot(command_prefix=('$'), help_command=None)
 
 __games__ = []
 voice_channel = ""
+dct_enemie = {}
 
 
 def __get_gif__(key_word):
@@ -100,5 +101,46 @@ async def roll(ctx, *args):
         print(e.__class__.__name__)
         await ctx.send(e)
 
+
+@bot.command()
+async def dmg(ctx, enemie, damage, *args):
+    if enemie not in dct_enemie:
+        dct_enemie[enemie] = damage
+        print(dct_enemie)
+    elif damage == 'dead':
+        dct_enemie[enemie] = 'dead'
+    else:
+        dct_enemie[enemie] = int(dct_enemie[enemie]) + int(damage)
+        print(dct_enemie)
+
+    if damage == 'dead':
+        msg = enemie + ' mort'
+    else:
+        msg = damage + ' degat sur ' + enemie
+    await ctx.send(msg)
+
+
+@bot.command()
+async def monsters(ctx):
+    msg = '```'
+    for i in dct_enemie:
+        msg = msg + i + ' : ' + dct_enemie[i] + '\n'
+    msg = msg + '```'
+    await ctx.send(msg)
+
+
+@bot.command()
+async def clear(ctx):
+    dct_enemie = {}
+    msg = 'table vider avec succes'
+    await ctx.send(msg)
+
+
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=discord.Activity(
+        type=discord.ActivityType.watching,
+        name='$help'))
+    print('Bot ready')
 
 bot.run(TOKEN)
