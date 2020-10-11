@@ -131,6 +131,7 @@ async def monsters(ctx):
 
 @bot.command()
 async def clear(ctx):
+    global dct_enemie
     dct_enemie = {}
     msg = 'table vider avec succes'
     await ctx.send(msg)
