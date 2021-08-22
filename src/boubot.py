@@ -21,6 +21,7 @@ MSG_HELP = "```pong        Response ping\r" \
 
 bot = commands.Bot(command_prefix='$', help_command=None)
 
+
 __games__ = []
 voice_channel = ""
 
@@ -62,7 +63,26 @@ async def join(ctx):
         await vc.disconnect()
     connected = ctx.author.voice
     if connected:
+
+        for vc in bot.voice_clients:
+            print(vc)
         await connected.channel.connect()
+
+
+@bot.command()
+async def mute(ctx):
+    vc = get(ctx.bot.voice_clients, guild=ctx.guild)
+    if vc:
+        await vc.disconnect()
+    connected = ctx.author.voice
+    if connected:
+
+        #connected.channel.voice_states[0].mute = True
+        dictionnary = connected.channel.voice_states
+
+        voice_state = next(iter(dictionnary.values()))
+        voice_state.mute = True
+
 
 
 @bot.command()
@@ -70,6 +90,18 @@ async def leave(ctx):
     vc = get(ctx.bot.voice_clients, guild=ctx.guild)
     if vc:
         await vc.disconnect()
+
+@bot.command()
+async def choose(ctx, *args):
+    try:
+
+        await ctx.send(random.choice(args))
+
+    except ValueError:
+        await ctx.send('Arguments of poll need to be integers')
+    except Exception as e:
+        print(e.__class__.__name__, e)
+        await ctx.send(e)
 
 
 @bot.command()
